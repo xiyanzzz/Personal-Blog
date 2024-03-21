@@ -1,0 +1,6 @@
+---
+
+title: Tag
+layout: tag
+
+---
