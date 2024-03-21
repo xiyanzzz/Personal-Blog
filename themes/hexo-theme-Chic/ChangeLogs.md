@@ -1,8 +1,4 @@
 Changelogs
-## 2022.2.9
-
-\[enhancement\] optimize the layout of profile on the mobile terminal.
-
 ## 2021.5.25
 
 \[fix bugs\] fixed issue#98. add rules of scrollbar in body.
