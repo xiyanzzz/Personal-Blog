@@ -5,7 +5,7 @@ tags: [Reinforcement Learning, 算法实现]
 categories: Reinforcement Learning
 
 ---
-# Solutions to MountainCarContinuous-v0 (DDPG/TD3/SAC/PPO)
+# Solutions to MountainCarContinuous-v0 (DDPG / TD3 / SAC / PPO)
 
 Codes Link: <https://github.com/xiyanzzz/RL-Implement/tree/main/Continuous%20Control>
 
@@ -710,20 +710,20 @@ H(\pi)=\mathbb{E}_{a\sim \pi}[-\log \pi(a)].
 $$
 **Maximum Entropy Reinforcement Learning** does not only aim to maximize the expection of cumulative reward, but also to optimize the entropy sum over time, which enables the agent to explore more and avoid converging to local optima. Therefore, the objective of policy learning is: (suppose $R_t$ is a function with respect to $s_t, a_t, s_{t+1}$)
 $$
-\pi^*=\arg\max_\pi\mathbb{E}_{\tau\sim\pi}\left[\sum_{t=0}^\infin R_t+\alpha H(\pi(\cdot|s_t))\right].
+\pi^*=\arg\max_\pi\mathbb{E}_{\tau\sim\pi}\left[\sum_{t=0}^\infty R_t+\alpha H(\pi(\cdot|s_t))\right].
 $$
 There are some conceptual differences between maximum entropy and traditional RL:
 
 - Soft state-value function:
 
 $$
-V_\pi(s_t)=\mathbb{E}_{\tau\sim\pi}\left [\sum^\infin_{l=0}\gamma^l\left(R_{t+l}+\alpha\cdot H(\pi(\cdot \mid s_{t+l}))\right) \right].
+V_\pi(s_t)=\mathbb{E}_{\tau\sim\pi}\left [\sum^\infty_{l=0}\gamma^l\left(R_{t+l}+\alpha\cdot H(\pi(\cdot \mid s_{t+l}))\right) \right].
 $$
 
 - Soft action-value function:
 
 $$
-Q_\pi(s_t,a_t)=\mathbb{E}_{\tau\sim\pi}\left [\sum^\infin_{l=0}\gamma^l\left(R_{t+l}+\alpha\cdot \gamma \cdot H(\pi(\cdot \mid s_{t+l+1}))\right) \right].
+Q_\pi(s_t,a_t)=\mathbb{E}_{\tau\sim\pi}\left [\sum^\infty_{l=0}\gamma^l\left(R_{t+l}+\alpha\cdot \gamma \cdot H(\pi(\cdot \mid s_{t+l+1}))\right) \right].
 $$
 
 - Soft Bellman equations:
@@ -1010,19 +1010,19 @@ Traditional policy-based learning algorithms, such as REINFORCE and Actor-Critic
 The optimization target of policy gradient is 
 $$
 \begin{aligned}
-J(\theta)&=\mathbb E_{\tau\sim p_{\theta}(\tau)}\left[\sum_{t=0}^\infin\gamma^t\cdot R_t \right]\\
+J(\theta)&=\mathbb E_{\tau\sim p_{\theta}(\tau)}\left[\sum_{t=0}^\infty\gamma^t\cdot R_t \right]\\
 &=\mathbb E_{s_0\sim p_{\theta}(s_0)}\left[V^{\pi_\theta}(s_0) \right]
 \end{aligned}
 $$
 Optimization Increment:
 $$
 \begin{aligned}
-J(\theta')-J(\theta)&=J(\theta')-\mathbb E_{s_0\sim p_{\theta}(s_0)}\left[\sum_{t=0}^\infin\gamma^t\cdot V^{\pi_\theta}(s_t)-\sum_{t=1}^\infin\gamma^t\cdot V^{\pi_\theta}(s_t) \right]\\
-&=\mathbb E_{\tau\sim p_{\theta'}(\tau)}\left[\sum_{t=0}^\infin\gamma^t\cdot R_t \right]+E_{\tau\sim p_{\theta'}(\tau)}\left[\sum_{t=0}^\infin\gamma^t\cdot(\gamma\cdot V^{\pi_\theta}(s_{t+1}-V^{\pi_\theta}(s_t)) \right]\\
+J(\theta')-J(\theta)&=J(\theta')-\mathbb E_{s_0\sim p_{\theta}(s_0)}\left[\sum_{t=0}^\infty\gamma^t\cdot V^{\pi_\theta}(s_t)-\sum_{t=1}^\infty\gamma^t\cdot V^{\pi_\theta}(s_t) \right]\\
+&=\mathbb E_{\tau\sim p_{\theta'}(\tau)}\left[\sum_{t=0}^\infty\gamma^t\cdot R_t \right]+E_{\tau\sim p_{\theta'}(\tau)}\left[\sum_{t=0}^\infty\gamma^t\cdot(\gamma\cdot V^{\pi_\theta}(s_{t+1}-V^{\pi_\theta}(s_t)) \right]\\
 &~~(\text{From the fact that initial state is independent of the policy})\\
-&=\mathbb E_{\tau\sim p_{\theta'}(\tau)}\left[\sum_{t=0}^\infin\gamma^t\cdot \left(R_t+\gamma\cdot V^{\pi_\theta}(s_{t+1})-V^{\pi_\theta}(s_t)\right)\right]\\
-&=\mathbb E_{\tau\sim p_{\theta'}(\tau)}\left[\sum_{t=0}^\infin\gamma^t\cdot A^{\pi_\theta}(s_t,a_t)\right]\\
-&=\sum_{t=0}^\infin\gamma^t\cdot \mathbb E_{s_t\sim P_{\theta'}(s_t)}\left[\mathbb E_{a_t\sim \pi_{\theta'}(a_t|s_t)}\left[ A^{\pi_\theta}(s_t,a_t) \right] \right]\\
+&=\mathbb E_{\tau\sim p_{\theta'}(\tau)}\left[\sum_{t=0}^\infty\gamma^t\cdot \left(R_t+\gamma\cdot V^{\pi_\theta}(s_{t+1})-V^{\pi_\theta}(s_t)\right)\right]\\
+&=\mathbb E_{\tau\sim p_{\theta'}(\tau)}\left[\sum_{t=0}^\infty\gamma^t\cdot A^{\pi_\theta}(s_t,a_t)\right]\\
+&=\sum_{t=0}^\infty\gamma^t\cdot \mathbb E_{s_t\sim P_{\theta'}(s_t)}\left[\mathbb E_{a_t\sim \pi_{\theta'}(a_t|s_t)}\left[ A^{\pi_\theta}(s_t,a_t) \right] \right]\\
 &~~(\text{Definition of state visition distribution})\\
 &=\frac{1}{1-\gamma}\cdot\mathbb E_{s\sim \nu^{\pi_{\theta'}}(s)}\mathbb E_{a\sim \pi_{\theta}(a|s)}\left[A^{\pi_\theta}(s,a) \right]\\
 &~~(\text{Importance Sampling trick})\\
@@ -1454,4 +1454,5 @@ def train(env_name:str, agent:PPOAgent, config:Config) -> PPOAgent:
 
 <img src="https://raw.githubusercontent.com/xiyanzzz/Picture-store/main/MarkText_pic/2024/04/11/20240411-135408.gif" alt="MountainCarContinuous-v0_result_TD3" style="zoom: 33%;" />
 
-<center><p class="image-caption">Solution example: Algorithm: TD3 Return: 95.09</p></center>
+<center><p class="image-caption">Solution example - Algorithm: TD3 and Return: 95.09</p></center>
+
