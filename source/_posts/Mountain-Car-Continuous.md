@@ -1448,7 +1448,7 @@ def train(env_name:str, agent:PPOAgent, config:Config) -> PPOAgent:
 - [2] [TRPO](https://hrl.boyuai.com/chapter/2/trpo%E7%AE%97%E6%B3%95) & [PPO](https://hrl.boyuai.com/chapter/2/ppo%E7%AE%97%E6%B3%95) & <https://github.com/boyu-ai/Hands-on-RL/blob/main/%E7%AC%AC12%E7%AB%A0-PPO%E7%AE%97%E6%B3%95.ipynb>
 - [3] [OpenAI Spining Up - TRPO](https://spinningup.openai.com/en/latest/algorithms/trpo.html) & [OpenAI Spining Up - PPO](https://spinningup.openai.com/en/latest/algorithms/ppo.html)
 
-- [4] https://github.com/mandrakedrink/PPO-pytorch
+- [4] <https://github.com/mandrakedrink/PPO-pytorch>
 
 ## Conclusion
 
