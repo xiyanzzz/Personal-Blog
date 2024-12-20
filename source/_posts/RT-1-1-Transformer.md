@@ -1,7 +1,7 @@
 ---
 title: RT-1(一)——从维度变化角度学习Transformer架构
 date: 2024-12-20 17:33:24
-tags:[Transformer-based, Deep learning, 算法实现]
+tags: [Transformer-based, Deep Learning, 算法实现]
 categories: Generative Models
 ---
 
