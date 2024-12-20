@@ -187,11 +187,11 @@ $$
 
 ### 解码器
 
-最后一个编码器输出是一个二维张量$X_{\text{encoder-out}}\in\mathbb R^{N\times d_{model}}$(一组注意力矩阵$K$和 $V$ ==(半个自注意力层结尾 ?)==，**修正**)，输入到每个解码器的Encoder-Decoder Attention层(即图1中的Multi-Head Attention，又称交叉注意力模块)计算出对应的注意力矩阵$K_X$和 $V_X$。
+最后一个编码器输出是一个二维张量$X_{\text{encoder-out}}\in\mathbb R^{N\times d_{model}}$(一组注意力矩阵$K$和 $V$ <mark>(半个自注意力层结尾 ?)</mark>，**修正**)，输入到每个解码器的Encoder-Decoder Attention层(即图1中的Multi-Head Attention，又称交叉注意力模块)计算出对应的注意力矩阵$K_X$和 $V_X$。
 
-~~此外，第一个解码器还接收$(y_1,\cdots,y_t)$(==(最新的完整的，还是单单上一个时间步输出 ? 后者)==, **修正**)输出序列(或**目标序列**，长度为$M$)(需要Embedding->$\mathbb R^{M\times d_{model}}$)作为输入，输出新的预测$(\hat y_2,\cdots,\hat y_{t+1})$。~~
+~~此外，第一个解码器还接收$(y_1,\cdots,y_t)$(<mark>(最新的完整的，还是单单上一个时间步输出 ? 后者)</mark>, **修正**)输出序列(或**目标序列**，长度为$M$)(需要Embedding->$\mathbb R^{M\times d_{model}}$)作为输入，输出新的预测$(\hat y_2,\cdots,\hat y_{t+1})$。~~
 
-每个时间步的输出序列(或**目标序列**，长度为$M$)将作为下一个时间步下解码器的输入(需经过嵌入和位置编码)，表示为$Y\in\mathbb R^{M\times d_{model}}$，随后经过一个**掩码多头自注意力层**计算目标序列内部的注意力: $Z_Y\in\mathbb R^{M\times d_{k}}$。
+每个时间步的输出序列(或**目标序列**，长度为$M$)将作为下一个时间步下解码器的输入(需经过嵌入和位置编码)，表示为$Y\in\mathbb R^{M\times d_{model}}$，随后经过一个**掩码多头自注意力层**计算目标序列内部的注意力: $Z_Y\in\mathbb R^{M\times d_{k}}$。（具体看代码实现-训练和推理部分）
 
 ![img](https://raw.githubusercontent.com/xiyanzzz/Picture-store/main/MarkText_pic/2024/12/16/20241216-222217.png)
 
@@ -424,7 +424,7 @@ Translated Sentence: 要 保护 环境 保护 环境 <UNK> 抓住 环境 <UNK> �
 
 和[4]一样很奇怪，为什么`保护`和`环境`之后不会终止呢？([4]的终止检测应该有问题，翻译里居然出现了多个终止符)
 
-然后我突然想到句号在词库里是怎样表达的，果然一查没有这个`token`，或者说归纳到`<pad>`或者`<UNK>`里了，显然作为重要的句子结束标记这样的词库不合理。。。
+然后我突然想到句号在词库里是怎样表达的，果然一查没有这个`token`，或者说归纳到`<pad>`或者`<UNK>`里了，显然作为重要的句子结束标记(个人认为)这样的词库不合理。。。
 
 所以我去掉了翻译句子里的`.`试了一下：
 
@@ -439,10 +439,11 @@ Translated Sentence: 我们 应当 要 抓好 的 环境 <UNK> 保护 好 环境
 
 > ​	总体来说，Transformer架构下，其编码组件可视作特征提取模型，而解码组件可视作生成模型，而注意力机制的提出具有开创性，也可很大的拓展性和可能性。
 
-## 参考来源
+## 参考
 
-- [1. 经典的Transformer图解英文博客](https://jalammar.github.io/illustrated-transformer/)
-- [2. 图解中文翻译](https://blog.csdn.net/benzhujie1245com/article/details/117173090)
-- [3. 很棒的博客(一)-ZhouYifan](https://zhouyifan.net/2022/11/12/20220925-Transformer/)
-- [4. 很棒的博客(二)-ZhouYifan](https://zhouyifan.net/2023/06/11/20221106-transformer-pytorch/)
-- ChatGPT: 很惊艳的代码能力
+- [[0] Attention is All you need](https://arxiv.org/abs/1706.03762)
+- [[1] 经典的Transformer图解英文博客](https://jalammar.github.io/illustrated-transformer/)
+- [[2] 图解的中文翻译](https://blog.csdn.net/benzhujie1245com/article/details/117173090)
+- [[3] 一篇不错的理论博客(一)-ZhouYifan](https://zhouyifan.net/2022/11/12/20220925-Transformer/)
+- [[4] 一篇不错的实现博客(二)-ZhouYifan](https://zhouyifan.net/2023/06/11/20221106-transformer-pytorch/)
+- ChatGPT: 强推，胜过任何老师
